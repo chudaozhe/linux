@@ -1,0 +1,38 @@
+#!/bin/bash 
+# author:kuangl 
+# date:2013-05-30 
+# description: Starts and stops the Memcached services. 
+# pidfile: /tmp/memcached1.pid 
+# config:  /usr/local/memcached 
+# chkconfig: - 55 45 
+# source function library 
+. /etc/rc.d/init.d/functions
+memcached="/data/apps/memcached/bin/memcached"
+[ -e $memcached ] || exit 1 
+start() 
+{ 
+echo "Starting memcached:"
+daemon $memcached -d -m 128 -umemcache -l 127.0.0.1 -p 11211 -c 500 -P /tmp/memcached1.pid 
+} 
+stop() 
+{ 
+echo "Shutting down memcached"
+killproc memcached 
+} 
+case "$1" in
+start) 
+start 
+;; 
+stop) 
+stop 
+;; 
+restart) 
+stop 
+sleep 3 
+start 
+;; 
+*) 
+echo $"Usage: $0 {start|stop|restart}"
+exit 1 
+esac
+exit $?

@@ -1,0 +1,324 @@
+http://www.jb51.net/article/10139.htm
+
+
+MRTG配置完整全功略
+
+MRTG 主要功能: 
+
+用一个网页来监视系统的CPU,NIC,MEM,SWAP,DISK usage, DISK I/O.情况.
+
+
+MRTG 配置完整全功略. 
+最近有不少朋友在问MRTG的问题,我前一段时间也搞了一些,今天花了一天的时间一边重新做一遍,一边写文档.现在文档写完了,把它拿出来共享给大家. 写文档是件辛苦的事,由于水平有限,里面如果有什么错误的话,就帮忙指出. 
+请相信如果照着这个来做,MRTG就会做好. 
+
+主要功能: 
+用一个网页来监视系统的CPU,NIC,MEM,SWAP,DISK usage, DISK I/O.情况. 
+里面的script有部分是自已写的,也有部分是下载的.像磁盘空间那个script是下载的,但是觉得功能不是很好用,由于有现在的也就没有再写,如果哪位有更好的script忘请共享.
+
+
+一、安装. 
+
+
+1.需要的RPM 
+RHEL 3.0/4.0的安装CD带有MRTG的RPM安装包. 为了使用MRTG的一些脚本,需要安装其他的一些安装包. 
+Sysstat.rpm 系统状况监视安装包.(cpu.sh) 
+Procps.rpm 内存,Swap 使用情况工具等(cpu.sh,mem.sh,swap.sh) 
+Coreutils.rpm (df.pl,disk.sh) 
+gd-1.8.4-4 
+gd-devel-1.8.4-4 
+perl-5.6.0-17 
+perl-CGI 
+mod_perl-1.24_01-3 
+libpng-1.0.12-2 
+libpng-devel-1.0.12-2 
+gcc-2.96-98 
+gcc-g77-2.96-98 
+gcc-c++-2.96-98 
+zlib-1.1.3-24 
+zlib-devel-1.1.3-24 
+httpd(apache) 
+net-snmp 
+mrtg
+检查装有没有上面rpm包.
+
+
+2.安装MRTG 
+Rpm –ivh mrtg-2.9.29-4.ent.i386.rpm
+
+
+
+
+
+二、 配置SNMP 让他可以配合MRTG工作 
+编辑/etc/snmp/snmpd.conf 
+把下面的#号去掉 
+#view mib2 included .iso.org.dod.internet.mgmt.mib-2 fc #在89行 
+把下面的语句#在62行 
+access notConfigGroup "" any noauth exact systemview none none 
+改为： 
+access notConfigGroup "" any noauth exact mib2 none none 
+改完重启一下snmp 
+Service snmpd restart
+
+检查snmp服务是否正常
+snmpwalk -v 1 192.168.104.201 -c public interface
+snmpwalk -v 1 192.168.104.201 -c public system
+如果snmp工作不正常收集不到interface信息则mrtg无法工作正常
+删除/etc/snmp/snmpd.conf
+执行snmpconf来创建新的snmp MIB库和帐号
+
+
+
+三、 配置MRTG 
+1. mkdir /var/www/html/mrtg
+2. mkdir /opt/mrtg  
+3. 复制mrtg的script 从xmnitplatform01 到/opt/mrtg Cpu.sh , mem.sh , swap.sh, diskperf.sh, disk.pl 
+4. cp /var/www/mrtg/* /var/www/html/mrtg
+5. /usr/bin/cfgmaker –output=/var/www/html/mrtg/mrtg.cfg public@10.102.17.100 用来配置一个mrtg
+配置文件.
+如果添加多个机器的话可采用下面的格式
+
+cfgmaker --output /var/www/html/mrtg/mrtg.cfg \
+--global "WorkDir: /var/www/html/mrtg" \
+--global "Options[_]: growright,bits" \
+--ifref=ip \
+public@192.168.104.205 \
+--global "WorkDir: /var/www/html/mrtg" \
+--global "Options[_]: growright,bits" \
+--ifref=ip \
+zzvcom@192.168.104.201 \ 
+(6) 编辑MRTG的配置文件 vi /var/www/html/mrtg/mrtg.cfg 
+   (1)把WorkDir: /var/www/html/mrtg 加入到配置文件的前面. 
+(2)把Options[_]: growright, bits 前面的#删掉. 
+(3)把要监测的几个ITEM加入到配置文件里面去. 
+1) CPU 
+   ################CPU###################### 
+Target[cpu]: `/opt/mrtg/cpu.sh` 
+MaxBytes[cpu]: 12500000 
+Title[cpu]: CPU -- XMNLINUXTEST02 
+Options[cpu]: gauge,nopercent,growright 
+YLegend[cpu]: CPU loading (%) 
+ShortLegend[cpu]:% 
+LegendO[cpu]: & CPU USER; 
+LegendI[cpu]: & CPU SYSTEM; 
+PageTop[cpu]: <H1>CPU   -- XMNLINUXTEST02</H1> 
+2)NIC 用配置文件自动配好的. 
+3)MEM   这个图最大设为2G,如果服务器有更大的内存,可以修改Maxbytes. 
+############### MEM   2G   ################# 
+Target[managemem]:`/opt/mrtg/mem.sh` 
+Unscaled[managemem]: dwym 
+MaxBytes[managemem]: 2048000 
+Title[managemem]:Memory 
+ShortLegend[managemem]: & 
+kmg[managemem]:kB,MB 
+kilo[managemem]:1024 
+YLegend[managemem]: Memory Usage 
+Legend1[managemem]: Total Memory 
+Legend2[managemem]: Used Memory 
+LegendI[managemem]: Total Memory 
+LegendO[managemem]: Used Memory 
+Options[managemem]: growright,gauge,nopercent 
+PageTop[managemem]:<H1>Memory -------XMNLINUXTEST2</H1> 
+4)Swap 也是设为2G,根据实际情况改MaxBytes. 
+################### Swap   2G####################### 
+Target[swap]:`/opt/mrtg/swap.sh` 
+Unscaled[swap]: dwym 
+MaxBytes[swap]: 2048000 
+Title[swap]:Memory State of Server 
+ShortLegend[swap]: & 
+kmg[swap]:kB,MB 
+kilo[swap]:1024 
+YLegend[swap]: Swap Usage 
+Legend1[swap]: Total Swap 
+Legend2[swap]: Used Swap 
+LegendI[swap]: Total Swap 
+LegendO[swap]: Used Swap 
+Options[swap]: growright,gauge,nopercent 
+PageTop[swap]:<H1>Swap-------XMNLINUXTEST02</H1> 
+
+5)设置磁盘使用量   最大为480G,可以根据实际情况修改MaxBytes 
+################## Disk Space   480G   ######################### 
+Target[disk]: `/opt/mrtg/df.pl` 
+Title[disk]: Disk Space ----XMNLINUXTEST02 
+Unscaled[disk]: dwym 
+MaxBytes[disk]: 465247550 
+kmg[disk]: KB,MB,GB 
+LegendI[disk]: Total Disk Space 
+LegendO[disk]: Used Disk Space 
+Legend1[disk]: Total Disk Space 
+Legend2[disk]: Used Disk Space 
+YLegend[disk]:   Megabytes 
+ShortLegend[disk]: & 
+Options[disk]: growright,gauge,nopercent 
+PageTop[disk]: <H1>Disk Space --------XMNLINUXTEST02</H1>
+6)磁盘I/O的检测,如果需要的检,更多的分区,修改并复制这个部分,并修改diskperf.sh 
+################## Disk I/O 100K/sec   /DEV/SDA   ########## 
+# If you want monitor more disk, please copy below create 
+# now monitor job, and copy & modify the diskperf.sh to setting disk. 
+Target[diskIO]: `/opt/mrtg/diskperf.sh` 
+Title[diskIO]: Disk HDA I/O Utilization Report 
+Unscaled[diskIO]: dwym 
+MaxBytes[diskIO]: 100 
+PageTop[diskIO]: <H1>Disk I/O Utilization Report</H1> 
+kmg[diskIO]: KB,MB,GB 
+LegendI[diskIO]: Disk I/O KBread/sec 
+LegendO[diskIO]: Disk I/O KBwrite/sec 
+Legend1[diskIO]: Disk I/O KBread/sec 
+Legend2[diskIO]: Disk I/O KBwrite/sec 
+YLegend[diskIO]:   Megabytes 
+ShortLegend[diskIO]: & 
+Options[diskIO]: growright,gauge,nopercent
+
+
+
+
+4. 编译配置文件 
+先在/etc/profile 加入两个参数 
+LC_ALL=C 
+LANGUAGE=on 
+
+# env LANG=C /usr/bin/mrtg /var/www/html/mrtg/mrtg.cfg 
+前面两次会出错,多运行几次就没有问题. 
+5. 生成html文件. 
+/usr/bin/indexmaker –output=/var/www/html/mrtg/index.html –title=主机名 /var/www/html/mrtg/mrtg.cfg 
+还可以
+/usr/bin/indexmaker –output=/var/www/html/mrtg/index.html   /var/www/html/mrtg/mrtg.cfg 
+6. 配置apache 的设置. 
+#vi /etc/httpd/conf.d/mrtg.cfg 
+把Alias /mrtg /var/www/mrtg 改为Alias /mrtg /var/www/html/mrtg
+把Allow from localhost   改为Allow from all 
+#service httpd restart ,重启apache. 
+7. 配置,自运行脚本,每五分钟自动运行一次. 
+在root 下启动 crontab –e 添加计划 
+*/5 * * * *   env LANG=C /usr/bin/mrtg /var/www/html/mrtg/mrtg.cfg 
+8.   确认service http&crontab的运进级别. 
+可以用下面两个命令查看这个服务的进行状况, 
+#chkconfig –list |grep httpd 
+#chkconfig –list |grep crontab 
+或用设定运行级别 
+chkconfig --level 35 httpd on 
+chkconfig --level 35 crontab on
+
+
+
+
+5. 常见问题 
+(1)问:实际内存或硬盘跟的图里面的值相差太多,要吗线超出图表,要吗,在图表的下面. 如何更改图表的比例? 如内存实际上只有512M,但表里面内存显示最大为2G. 
+答:修改/var/www/html/mrtg/mrtg.cfg 找到相关的部分, 修改MaxBytes[managemem]: 2048000 中的2048000为512000 
+(2)问:我有几个硬盘,如果要监测其他的硬盘IO? 
+答:首先复制一份diskperf.sh 成diskperf2.sh ,再修改diskperf2.sh里面把hd=xxx改为你要监测的硬盘,再修改/var/www/html/mrtg/mrtg.cfg 复制sda的那一部门,并修改相关的部分. 
+如Target[diskIO]:`/opt/mrtg/diskperf.sh` 改成Target[diskIO]: `/opt/mrtg/diskperf2.sh` 
+   这一部份的[diskIO]改为disk2IO 
+(3)问:修改了配置文件/var/www/html/mrtg/mrtg.cfg 后,网页没有生效 
+答:修改完配置文件应该要重新用下面命令生成新的网页. 
+/usr/bin/indexmaker –output=/var/www/html/mrtg/index.html –title=主机名 /var/www/html/mrtg/mrtg.cfg 
+   (4)问:如何看我的MRTG图. 
+      答:用http://你的IP/mrtg/ 就可以看到了. 
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+附:1: mrtg.cfg 里面几个参数的意思. 
+Target：是要执行的脚本 
+Xsize：生成图表的横向宽度（最大600） 
+Ysize：生成图表的纵向高度（最大200） 
+Title：标题 
+kMG: Change the default multiplier prefixes 
+Ytics：纵向划分为几个块（格子） 
+MaxBytes：图表纵向数值的最大上限 
+PageTop：页面上面的提示 
+kilo：一般是写1024，如果需要的话，是1000在计算机里的单位 
+LegendI：从SHELL返回的数据中的第一个 
+LegendO：从SHELL返回的数据中的第二个 
+Options： growright，表示图表向右延展 
+附2:各个script 
+(1) 
+cat /opt/mrtg/cpu.sh 
+#!/bin/bash 
+cpuusr=`/usr/bin/sar -u 1 3 |grep Average |awk '{print }'` 
+cpusys=`/usr/bin/sar -u 1 3 |grep Average |awk '{print }'` 
+UPtime=`/usr/bin/uptime |awk '{print """"}'` 
+echo $cpuusr 
+echo $cpusys 
+echo $UPtime 
+hostname 
+(2) 
+Disk usage 
+cat /opt/mrtg/df.pl 
+#!/usr/bin/perl 
+# This script was written on Debian 3.0, it assumes that the command 
+# output(df -kl) looks like this: 
+# Filesystem           1k-blocks    Used Available Use% Mounted on 
+# /dev/md0              95645100   30401312   64272080   33% / 
+# /dev/hde1             14119    1159     12231 9% /boot 
+# 
+# In which case, this script returns : 
+# 95659219 
+# 30402503 
+# when run. 
+foreach $filesystem (`df -kl | grep -v "Filesystem"`) 
+{ 
+@df = split(/\s+/,$filesystem); 
+$total += $df[1]; 
+$usage += $df[2]; 
+} 
+print "$total\n"; 
+print "$usage\n"; 
+hostname 
+(3) DISK IO 
+]# cat /opt/mrtg/diskperf.sh 
+#!/bin/bash 
+
+# This script will monitor the KBread/sec &KBwriten/sec of Disk, and sent out the Blk_read/s and Blk_wrtn/s to MRTG, to make the performance image. 
+# Creater: CCC IT loren   ext:2288 2005/8/3 
+# Set the who need monitor device. As sda ,sdb,sdc,sdd,hda. 
+
+
+# disk=sda 
+hd=sda 
+disk=/dev/$hd 
+UPtime=`/usr/bin/uptime |awk '{print """"}'` 
+KBread_sec=`iostat -x $disk|grep $hd |awk '{print }'` 
+KBwrite_sec=`iostat -x $disk|grep $hd |awk '{print }'` 
+echo "$KBread_sec" 
+echo "$KBwrite_sec" 
+hostname 
+(4)MEMORY 
+cat /opt/mrtg/mem.sh 
+#!/bin/bash 
+# run this script to check the mem usage. 
+totalmem=`/usr/bin/free |grep Mem |awk '{print }'` 
+usedmem=`/usr/bin/free |grep Mem |awk '{print }'` 
+echo "$totalmem" 
+echo "$usedmem" 
+(5)SWAP 
+cat /opt/mrtg/swap.sh 
+#!/bin/bash 
+# run this script to check the swap usage. 
+totalswap=`/usr/bin/free |grep Swap |awk '{print }'` 
+usedswap=`/usr/bin/free |grep Swap |awk '{print }'` 
+echo "$totalswap" 
+echo "$usedswap"
+
+
+
+
+
+
+
+
+特别提示：snmp需要安装的包
+rpm -qa | grep -i snmp
+net-snmp-perl-5.1.2-11
+net-snmp-libs-5.1.2-11
+net-snmp-utils-5.1.2-11
+net-snmp-devel-5.1.2-11
+net-snmp-5.1.2-11 
+ 
+ 
