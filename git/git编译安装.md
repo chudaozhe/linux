@@ -21,15 +21,17 @@ useradd git
 su git
 设置用户推送时免输git密码
 cd ~
-mkdir .ssh
-touch authorized_keys
+//使其自动创建.ssh目录
+ssh-keygen -t rsa -C "chudaozhe@outlook.com"
 echo "客户端用户的public key" >>authorized_keys
+chmod 600 authorized_keys
+[此时可在客户端测试：ssh git@192.168.9.110 如果免密码成功登录则说明这部分已配置成功]
 
 建仓库：
 mkdir -p work/project.git
 cd project.git
 git --bare init
-[至此仓库的访问url为：git@192.168.9.110:/home/git/work/project.git]
+[至此仓库的访问url为：git@192.168.9.110:~/work/project.git]
 
 禁止用户使用git 远程ssh登录服务器：
 git:x:504:504::/home/git:/usr/bin/git-shell
@@ -50,7 +52,7 @@ git init
 touch hehe
 git add .
 git commit -m 'ok'
-git remote add origin git@192.168.9.110:/home/git/work/project.git
+git remote add origin git@192.168.9.110:~/work/project.git
 [备用git remote rm origin]
 git push origin master
 
