@@ -70,6 +70,9 @@ LoadModule php5_module        /usr/lib64/httpd/modules/libphp5.so
 +--------------------------------------------------------------------+
 建议：--with-apxs2与apache一起， --enable-fpm[激活 FPM 支持]与nginx一起
 
+php扩展：
+bcompiler：加密php脚本,仅支持php5.3及以下版本,安装方法参见memcache扩展
+
 问题1：
 checking for known struct flock definition... configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no
 新建 local.conf
