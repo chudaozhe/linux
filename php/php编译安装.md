@@ -9,6 +9,10 @@ https://bitbucket.org/libgd/gd-libgd/downloads/libgd-2.1.0.tar.gz
 下载php
 http://tw1.php.net/distributions/php-5.5.11.tar.gz
 
+也可以批量下载[一个url占一行]：
+vi url-list.txt
+cat url-list.txt | xargs wget -c
+
 cd /data/apps/libs
 mkdir jpegsrc libpng freetype curl libmcrypt #可以省略
 
