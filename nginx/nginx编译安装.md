@@ -7,9 +7,11 @@ make && make install
 wget http://nginx.org/download/nginx-1.7.8.tar.gz
 tar -xvzf nginx-1.7.8.tar.gz 
 cd nginx-1.7.8
+mkdir module
+wget https://github.com/openresty/echo-nginx-module/archive/v0.57.tar.gz
 
 useradd -M -s /sbin/nologin www #不创建家目录，不能ssh登录
-./configure --user=www --group=www --prefix=/data/apps/nginx --conf-path=/data/apps/nginx/conf/nginx.conf --pid-path=/data/apps/nginx/logs/nginx.pid --with-http_stub_status_module --with-http_ssl_module --with-pcre=/data/tgz/libs/pcre-8.36 --with-http_realip_module --with-http_image_filter_module
+./configure --user=www --group=www --prefix=/data/apps/nginx --conf-path=/data/apps/nginx/conf/nginx.conf --pid-path=/data/apps/nginx/logs/nginx.pid --with-http_stub_status_module --with-http_ssl_module --with-pcre=/data/tgz/libs/pcre-8.36 --with-http_realip_module --with-http_image_filter_module --add-module=/data/tgz/nginx-1.7.8/module/echo-nginx-module-0.57
 make && make install
 启动nginx :
 ln -s /data/apps/nginx/sbin/nginx /usr/bin/nginxd
