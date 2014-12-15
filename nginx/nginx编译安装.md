@@ -1,6 +1,6 @@
-wget http://sourceforge.net/projects/pcre/files/pcre/8.35/pcre-8.35.tar.gz
-tar -xvzf pcre-8.35.tar.gz
-cd pcre-8.35
+wget http://sourceforge.net/projects/pcre/files/pcre/8.36/pcre-8.36.tar.gz
+tar -xvzf pcre-8.36.tar.gz
+cd pcre-8.36
 ./configure --prefix=/data/apps/libs
 make && make install
 
@@ -9,7 +9,7 @@ tar -xvzf nginx-1.7.8.tar.gz
 cd nginx-1.7.8
 
 useradd -M -s /sbin/nologin www #不创建家目录，不能ssh登录
-./configure --user=www --group=www --prefix=/data/apps/nginx --conf-path=/data/apps/nginx/conf/nginx.conf --pid-path=/data/apps/nginx/logs/nginx.pid --with-http_stub_status_module --with-http_ssl_module --with-pcre=/data/tgz/libs/pcre-8.35 --with-http_realip_module --with-http_image_filter_module
+./configure --user=www --group=www --prefix=/data/apps/nginx --conf-path=/data/apps/nginx/conf/nginx.conf --pid-path=/data/apps/nginx/logs/nginx.pid --with-http_stub_status_module --with-http_ssl_module --with-pcre=/data/tgz/libs/pcre-8.36 --with-http_realip_module --with-http_image_filter_module
 make && make install
 启动nginx :
 ln -s /data/apps/nginx/sbin/nginx /usr/bin/nginxd
