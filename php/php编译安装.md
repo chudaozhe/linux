@@ -1,13 +1,13 @@
 下载php扩展包
 http://www.ijg.org/files/jpegsrc.v9a.tar.gz
-http://sourceforge.net/projects/libpng/files/libpng16/1.6.14/libpng-1.6.14.tar.gz
+http://sourceforge.net/projects/libpng/files/libpng16/1.6.16/libpng-1.6.16.tar.gz
 http://ftp.twaren.net/Unix/NonGNU//freetype/freetype-2.4.0.tar.gz
 http://curl.haxx.se/download/curl-7.37.1.tar.gz
 ftp://mcrypt.hellug.gr/pub/crypto/mcrypt/libmcrypt/libmcrypt-2.5.7.tar.gz
 https://bitbucket.org/libgd/gd-libgd/downloads/libgd-2.1.0.tar.gz
 
 下载php
-http://tw1.php.net/distributions/php-5.5.11.tar.gz
+http://tw1.php.net/distributions/php-5.6.4.tar.gz
 
 也可以批量下载[一个url占一行]：
 vi url-list.txt
