@@ -88,7 +88,7 @@ vi csft.conf
 #发sql之前设置字符集
      79          sql_query_pre          = SET NAMES utf8
 #关闭查询缓存
-     80          sql_query_pre          = SET SESSION query_cache_type=OFF
+     80          # sql_query_pre          = SET SESSION query_cache_type=OFF
 #SELECT 后第一个必须是主键
      88         sql_query               =SELECT id,title,content FROM news
 
