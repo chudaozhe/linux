@@ -1,5 +1,5 @@
 ###Windows:
-postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与服务端通信的，所以如果php是32位，postgresql也得装32位版
+postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与服务端通信的，所以如果php是64位，postgresql也得装64位版
 
 > 注：`libpq.dll`在`D:\Program Files (x86)\PostgreSQL\9.4\bin`下面，需要将这个目录加入环境变量
 
