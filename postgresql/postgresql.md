@@ -27,7 +27,7 @@ postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与
 
 <del>vi /etc/passwd</del>
 
-<del>似这样postgres:x:26:26:PostgreSQL Server:/var/lib/pgsql:/bin/bash</del>
+<del>`似这样postgres:x:26:26:PostgreSQL Server:/var/lib/pgsql:/bin/bash`</del>
 
 
 	cd /data/apps/pgsql
