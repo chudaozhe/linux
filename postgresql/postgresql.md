@@ -5,8 +5,12 @@ postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与
 
 ###Linux
 `wget(curl -O) http://ftp.postgresql.org/pub/source/v9.4.0/postgresql-9.4.0.tar.gz`
-####依赖包
+
+依赖包
+
 `yum install readline-devel`
+
+开始编译
 
 `./configure --prefix=/data/apps/pgsql --with-pgport=5432 --with-perl --with-python --with-tcl`
 
