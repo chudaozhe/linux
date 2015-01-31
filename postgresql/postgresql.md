@@ -32,7 +32,6 @@ postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与
 
 	cd /data/apps/pgsql
 	mkdir data
-	mkdir logs
 	chown postgres data/
 	
 su - postgres
@@ -117,3 +116,14 @@ TEST
 将hehe数据库的所有权限都赋予cui，否则cui只能登录控制台，没有任何数据库操作权限
 
 `GRANT ALL PRIVILEGES ON DATABASE hehe to cui;`
+
+
+问题1：
+
+`configure: error: could not determine flags for linking embedded Perl.
+This probably means that ExtUtils::Embed or ExtUtils::MakeMaker is not
+installed.`
+
+解决：
+
+`yum install perl-ExtUtils-Embed`
