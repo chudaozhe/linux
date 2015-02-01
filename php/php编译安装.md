@@ -39,7 +39,7 @@ yum remove php*
 --enable-mbstring --with-mcrypt=/data/apps/libs --with-gd=/data/apps/libs --enable-gd-native-ttf --with-openssl \
 --with-mhash --enable-pcntl --enable-sockets --with-ldap-sasl \
 --with-xmlrpc --enable-zip --enable-soap --with-pear --with-zlib [--with-pgsql=/data/
-apps/pgsql] [--enable-fpm] #备注2
+apps/pgsql  --with-pdo-pgsql=/data/apps/pgsql] [--enable-fpm] #备注2
 make && make install 
 cp php.ini-production /data/apps/php/etc/php.ini
 ------------------php-fpm nginx用 start---------------
