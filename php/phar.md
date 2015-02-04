@@ -6,7 +6,7 @@
 	├── demo			#要打包的目录
 	│   └── boot.php
 	├── my.phar		#生成的包
-	└── test.php 	#使用包
+	└── test.php		#使用包
 
 参考：
 
