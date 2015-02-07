@@ -1,4 +1,8 @@
-下载php扩展包
+安装gcc g++ make
+yum -y install gcc gcc-c++ make 
+安装依赖包
+yum -y install zlib-devel libxml2-devel openssl openssl-devel gd-devel
+下载php依赖包
 http://www.ijg.org/files/jpegsrc.v9a.tar.gz
 http://sourceforge.net/projects/libpng/files/libpng16/1.6.16/libpng-1.6.16.tar.gz
 http://ftp.twaren.net/Unix/NonGNU//freetype/freetype-2.4.0.tar.gz
@@ -33,7 +37,7 @@ yum remove php*
 --with-config-file-path=/data/apps/php/etc \
 --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd \
 --with-iconv-dir --with-freetype-dir=/data/apps/libs \
---with-jpeg-dir=/data/apps/libs --with-png-dir=/data/apps/libs --with-zlib --with-libxml-dir=/data/apps/libs --enable-xml \
+--with-jpeg-dir=/data/apps/libs --with-png-dir=/data/apps/libs --with-zlib --with-libxml-dir=/data/apps/libs --enable-xml --with-xpm-dir \
 --disable-rpath --enable-bcmath --enable-shmop --enable-sysvsem \
 --enable-inline-optimization --with-curl=/data/apps/libs --enable-mbregex \
 --enable-mbstring --with-mcrypt=/data/apps/libs --with-gd=/data/apps/libs --enable-gd-native-ttf --with-openssl \
@@ -84,6 +88,7 @@ checking for known struct flock definition... configure: error: Don't know how t
 vi /etc/ld.so.conf.d/local.conf
 加入以下两行
 /usr/local/lib
+/usr/lib64
 /data/apps/libs/lib
 保存退出
 ldconfig -v 使生效

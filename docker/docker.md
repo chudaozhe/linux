@@ -2,8 +2,12 @@
 
 docker run -i -t docker.cn/docker/centos /bin/bash
 
+运行一个容器并将宿主机目录/data/tgz挂到容器中
+`docker run -i -t -v /data/tgz/:/data/tar/ cwweb:v2 /bin/bash`
+
 [root@5d3b3f1d93f2 /]# ls
 [root@5d3b3f1d93f2 /]# touch hehe.txt
+[root@5d3b3f1d93f2 /]# exit
 
 保存容器更改：
 docker commit 5d3[镜像id 即登录容器后显示的root@xxx,xxx部分不必写全] cwweb:v1
@@ -56,3 +60,48 @@ sudo systemctl enable docker
 sudo docker run -i -t fedora /bin/bash
 
 好了，现在你可以继续做hello word的例子
+
+
+--------------------------------------------
+
+###清理冗余的image，可采用以下方法：
+
+1.进入root权限
+
+`sudo su`
+
+2.停止所有的container，这样才能够删除其中的images：
+
+`docker stop $(docker ps -a -q)`
+
+如果想要删除所有container的话再加一个指令：
+
+`docker rm $(docker ps -a -q)`
+
+3.查看当前有些什么images
+
+`docker images`
+
+4.删除images，通过image的id来指定删除谁
+
+`docker rmi <image id>`
+
+想要删除untagged images，也就是那些id为<None>的image的话可以用
+
+`docker rmi $(docker images | grep "^<none>" | awk "{print $3}")`
+
+要删除全部image的话
+
+`docker rmi $(docker images -q)`
+
+
+问题
+启动容器失败：
+`Error response from daemon: Cannot start container xxx: unable to remount sys readonly: unable to mount sys as readonly max retries reached`
+
+处理办法
+
+`vi /etc/sysconfig/docker`
+`other_args="--exec-driver=lxc --selinux-enabled"` #新增
+
+`service docker restart`
