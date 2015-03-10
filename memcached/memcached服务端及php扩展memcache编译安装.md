@@ -38,6 +38,7 @@ checking for libevent directory... configure: error: libevent is required. You c
 cd /usr/local/src
 wget http://pecl.php.net/get/memcache
 /data/apps/php/bin/phpize [/usr/bin/phpize]
+#######--with-php-config=/dir 等号两边不能有空格
 ./configure --with-php-config=/data/apps/php/bin/php-config [/usr/bin/php-config]
 make && make install
 成功提示：
