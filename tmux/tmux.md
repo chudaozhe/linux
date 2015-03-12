@@ -9,7 +9,7 @@ control.c:64: error: for each function it appears in.)
 make: *** [control.o] Error 1
 
 指定新版libevent的位置
-CFLAGS="-I/data/apps/libs/include" LDFLAGS="-L//data/apps/libs/lib" ./configure --prefix=/data/apps/tmux
+CFLAGS="-I/data/apps/libs/include" LDFLAGS="-L/data/apps/libs/lib" ./configure --prefix=/data/apps/tmux
 make && make install
 
 [root@mail tmux-1.9a]# tmux new -s ali
