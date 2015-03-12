@@ -48,6 +48,25 @@ make && make install
 cp php.ini-production /data/apps/php/etc/php.ini
 ------------------php-fpm nginx用 start---------------
 cd /data/apps/php/etc
+vi php.ini
+记录文件错误日志：
+452 error_reporting = E_ALL
+469 display_errors = Off
+490 log_errors = On
+635 error_log = /data/logs/php_error.log
+
+或在php文件里开启：
+//打开全部错误监视
+error_reporting(E_ALL);
+//禁止把错误输出到页面
+ini_set('display_errors', 0); 
+//设置错误信息输出到文件
+ini_set('log_errors', 1); 
+//指定错误日志文件名，文件并不需要真实存在，只要路径正确即可
+ini_set("error_log", '/data/logs/php_error.log'); 
+实时查看错误日志：
+tail -f /data/logs/php_error.log
+
 cp php-fpm.conf.default php-fpm.conf
 启动php-fpm :
 ln -s /data/apps/php/sbin/php-fpm /usr/bin/php-fpm
