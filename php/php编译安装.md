@@ -111,3 +111,8 @@ vi /etc/ld.so.conf.d/local.conf
 /data/apps/libs/lib
 保存退出
 ldconfig -v 使生效
+
+问题2:
+configure: error: libXpm.(a|so) not found.
+
+ln -s /usr/lib64/libXpm.so* /usr/lib/
