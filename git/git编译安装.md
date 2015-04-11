@@ -4,6 +4,8 @@
 源码编译：
 依赖包：
 yum install perl-ExtUtils-MakeMaker package
+yum install tcl
+yum install gettext-devel
 
 #wget https://www.kernel.org/pub/software/scm/git/git-2.1.2.tar.gz
 #./configure --prefix=/data/apps/git
