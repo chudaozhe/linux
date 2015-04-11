@@ -34,6 +34,9 @@ checking for libevent directory... configure: error: libevent is required. You c
       If it's already installed, specify its path using --with-libevent=/dir/
 
 安装php扩展：
+依赖工具：
+yum install autoconf
+
 下载最新版本:
 cd /usr/local/src
 wget http://pecl.php.net/get/memcache
