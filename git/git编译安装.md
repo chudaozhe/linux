@@ -27,6 +27,16 @@ cd ~
 ssh-keygen -t rsa -C "chudaozhe@outlook.com"
 echo "客户端用户的public key" >>authorized_keys
 chmod 600 authorized_keys
+
+开启服务端rsa验证：
+vi /etc/ssh/sshd_config
+13 Port 1018	#改掉22端口号，注意防火墙要开放此端口
+47 RSAAuthentication yes
+48 PubkeyAuthentication yes
+49 AuthorizedKeysFile      .ssh/authorized_keys
+66 PasswordAuthentication no  #禁止使用密码登录
+/etc/init.d/sshd reload
+
 [此时可在客户端测试：ssh git@192.168.9.110 如果免密码成功登录则说明这部分已配置成功]
 
 建仓库：
