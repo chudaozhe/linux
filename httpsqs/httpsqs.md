@@ -11,6 +11,9 @@ cd libevent-2.0.21-stable
 make && make install
 
 #tokyocabinet[一种NoSQL,为httpsqs提供持久存储]
+依赖包：
+yum install bzip2-devel
+
 wget http://fallabs.com/tokyocabinet/tokyocabinet-1.4.48.tar.gz
 tar -xvzf tokyocabinet-1.4.48.tar.gz
 cd tokyocabinet-1.4.48
