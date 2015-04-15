@@ -3,7 +3,7 @@
 #yum install git
 源码编译：
 依赖包：
-yum install perl-ExtUtils-MakeMaker package
+yum install perl-ExtUtils-MakeMaker
 yum install tcl
 yum install gettext-devel
 
