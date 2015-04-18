@@ -1,0 +1,157 @@
+# Example MySQLconfig file for large systems.
+#
+# This is for a largesystem with memory = 512M where the system runs mainly
+# MySQL.
+#
+# MySQL programs lookfor option files in a set of
+# locations whichdepend on the deployment platform.
+# You can copy thisoption file to one of those
+# locations. Forinformation about these locations, see:
+
+#http://dev.mysql.com/doc/mysql/en/option-files.html
+#
+# In this file, youcan use all long options that a program supports.
+# If you want to knowwhich options a program supports, run the program
+# with the"--help" option.
+
+# The followingoptions will be passed to all MySQL clients
+
+[client]
+#password     = your_password
+port        = 3306
+#socket          = /var/lib/mysql/mysql.sock
+socket            = /data/apps/mysql/mysqld_3306.sock
+character-set-server= utf8
+# Here followsentries for some specific programs
+
+# The MySQL server
+[mysqld]
+port        = 3306
+#socket          = /var/lib/mysql/mysql.sock
+socket            = /data/apps/mysql/mysqld_3306.sock
+user=mysql
+symbolic-links=0
+skip-external-locking
+
+key_buffer_size =256M
+max_allowed_packet =1M
+table_open_cache =256
+sort_buffer_size = 2M
+read_buffer_size = 2M
+read_rnd_buffer_size= 8M
+myisam_sort_buffer_size= 64M
+thread_cache_size = 8
+query_cache_size= 32M
+# Try number ofCPU's*2 for thread_concurrency
+thread_concurrency =8
+character-set-server= utf8
+max_connections =1000
+
+# Don't listen on aTCP/IP port at all. This can be a security enhancement,
+# if all processesthat need to connect to mysqld run on the same host.
+# All interactionwith mysqld must be made via Unix sockets or named pipes.
+# Note that usingthis option without enabling named pipes on Windows
+# (via the"enable-named-pipe" option) will render mysqld useless!
+#
+#skip-networking
+# Replication MasterServer (default)
+# binary logging isrequired for replication
+## log-bin=mysql-bin
+# binary loggingformat - mixed recommended
+## binlog_format=mixed
+# required unique idbetween 1 and 2^32 - 1
+# defaults to 1 ifmaster-host is not set
+# but will notfunction as a master if omitted
+## server-id       = 1
+# Replication Slave(comment out master section to use this)
+#
+# To configure thishost as a replication slave, you can choose between
+# two methods :
+#
+# 1) Use the CHANGEMASTER TO command (fully described in our manual) -
+#    the syntax is:
+#
+#    CHANGE MASTER TO MASTER_HOST=<host>,MASTER_PORT=<port>,
+#    MASTER_USER=<user>,MASTER_PASSWORD=<password> ;
+#
+#    where you replace <host>,<user>, <password> by quoted strings and
+#    <port> by the master's port number(3306 by default).
+#
+#    Example:
+#
+#    CHANGE MASTER TOMASTER_HOST='125.564.12.1', MASTER_PORT=3306,
+#    MASTER_USER='joe',MASTER_PASSWORD='secret';
+#
+# OR
+#
+# 2) Set the variablesbelow. However, in case you choose this method, then
+#    start replication for the first time (evenunsuccessfully, for example
+#    if you mistyped the password inmaster-password and the slave fails to
+#    connect), the slave will create a master.infofile, and any later
+#    change in this file to the variables'values below will be ignored and
+#    overridden by the content of themaster.info file, unless you shutdown
+#    the slave server, delete master.info andrestart the slaver server.
+#    For that reason, you may want to leave thelines below untouched
+#    (commented) and instead use CHANGE MASTERTO (see above)
+#
+# required unique idbetween 2 and 2^32 - 1
+# (and different fromthe master)
+# defaults to 2 ifmaster-host is set
+# but will notfunction as a slave if omitted
+#server-id       = 2
+#
+# The replicationmaster for this slave - required
+#master-host     =  <hostname>
+#
+# The username theslave will use for authentication when connecting
+# to the master -required
+#master-user     =   <username>
+#
+# The password theslave will authenticate with when connecting to
+# the master -required
+#master-password=   <password>
+#
+# The port the masteris listening on.
+# optional - defaultsto 3306
+#master-port     = <port>
+#
+# binary logging - notrequired for slaves, but recommended
+#log-bin=mysql-bin
+
+# Uncomment thefollowing if you are using InnoDB tables
+innodb_data_home_dir= /data/apps/mysql/data
+innodb_data_file_path= ibdata1:2000M;ibdata2:10M:autoextend
+innodb_log_group_home_dir= /data/apps/mysql/data
+# You can set.._buffer_pool_size up to 50 - 80 %
+# of RAM but bewareof setting memory usage too high
+innodb_buffer_pool_size= 1024M
+innodb_additional_mem_pool_size= 20M
+# Set.._log_file_size to 25 % of buffer pool size
+innodb_log_file_size= 256M
+innodb_log_buffer_size= 8M
+innodb_flush_log_at_trx_commit= 1
+innodb_lock_wait_timeout= 50
+
+[mysqldump]
+quick
+max_allowed_packet =16M
+
+[mysql]
+default_character_set=utf8
+no-auto-rehash
+# Remove the nextcomment character if you are not familiar with SQL
+#safe-updates
+
+[myisamchk]
+key_buffer_size =256M
+sort_buffer_size =256M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+log-error=/data/apps/mysql/log/mysqld_3306.log
+#pid-file=/data/apps/mysql/data/mysqld_3306.pid
+
