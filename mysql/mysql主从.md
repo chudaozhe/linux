@@ -3,14 +3,12 @@
 
 设置主
 vi /data/apps/mysql/my.cnf
-[mysqld]
-#开启二进制日志
-log-bin=mysql-bin
-server-id=100
+见附件my.master.md
 
 
 进入主mysql
-#创建一个只允许ip192.168.1.102访问的backup用户并授权
+#创建一个只允许ip192.168.1.102访问的backup用户并授权(赋予从机权限，有多台从机，就执行多次)
+  
 grant replication slave on *.* to 'backup'@'192.168.1.102' identified by '123456';
 
 #权限重载
@@ -24,13 +22,7 @@ mysql> FLUSH TABLES WITH READ LOCK;
 
 #查询主数据库状态，并记下FILE及Position的值
 
-mysql> show master status;
-+------------------+----------+--------------+------------------+-------------------+
-| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
-+------------------+----------+--------------+------------------+-------------------+
-| mysql-bin.000001 |     336  |              |                  |                   |
-+------------------+----------+--------------+------------------+-------------------+
-1 row in set (0.00 sec)
+mysql> show master status;①
 
 
 #选择要同步的主库并备份数据
@@ -50,13 +42,11 @@ mysql> unlock tables;
 ---导入从主备份过来的sql文件----
 
 vi /data/apps/mysql/my.cnf
-[mysqld]
-#开启二进制日志
-log-bin=mysql-bin
-server-id=200
+见附件my.slave.md
 
-#创建一个只允许192.168.1.101访问的backup用户并授权
-mysql>change master to master_host='192.168.1.101',master_user='backup',master_password='654321',master_log_file='mysql-bin.000001',master_log_pos=336;
+
+#设置将要访问主库的信息
+mysql>change master to master_host='192.168.1.101',master_user='backup',master_password='123456',master_log_file='mysql-bin.000001',master_log_pos=336;
 
 注意：mysql-bin.000001(File的值)和master_log_pos(Position的值)是在主服务器上查询的 mysql>show master status;
 
@@ -69,3 +59,14 @@ mysql>show slave status\G   #末尾不加分号
 	Slave_SQL_Running=Yes
 
 #如果要重复执行mysql>change master to... 需要停止同步mysql>stop slave 再执行
+
+
+
+①	mysql> show master status;
++------------------+----------+--------------+------------------+-------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++------------------+----------+--------------+------------------+-------------------+
+| mysql-bin.000001 |     336  |              |                  |                   |
++------------------+----------+--------------+------------------+-------------------+
+1 row in set (0.00 sec)
+
