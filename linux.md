@@ -47,3 +47,6 @@ yum remove mysql*
 
 9, 设置防火墙规则
 sh iptables.sh #建议在tmux下面执行此操作
+
+10, crontab 
+yum install vixie-cron
