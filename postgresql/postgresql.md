@@ -62,26 +62,6 @@ su - postgres
 
 `ln -s /data/apps/pgsql/bin/* /usr/bin/`
 
-TEST
-
-	[root@cw postgresql-9.4.0]# su - postgres
-	-bash-4.1$ createdb test
-	-bash-4.1$ psql test
-	psql (9.4.0)
-	Type "help" for help.
-	
-	test=# 
-	test=# create table test(id int,uname char(30));
-	test=# \d
-	test=# insert into test values(1,'hehe');
-	test=# select * from test;
-	test=# \q
-
----------------
-
-	[root@cw postgresql-9.4.0]# psql -U postgres
-	默认是postgres用户是没有密码的可以直接登录，这里设个密码
-	postgres=# \password
 
 开启远程链接
 
@@ -118,6 +98,36 @@ TEST
 `GRANT ALL PRIVILEGES ON DATABASE hehe to cui;`
 
 
+登录远程数据库
+
+	psql -Upostgres -dtestdb -h192.168.1.9 -p5432
+	
+	-U指定用户，-d指定数据库，-h指定服务器，-p指定端口。
+
+导入数据
+
+	psql testdb < testdb.sql
+
+TEST
+
+	[root@cw postgresql-9.4.0]# su - postgres
+	-bash-4.1$ createdb test
+	-bash-4.1$ psql test
+	psql (9.4.0)
+	Type "help" for help.
+	
+	test=# 
+	test=# create table test(id int,uname char(30));
+	test=# \d
+	test=# insert into test values(1,'hehe');
+	test=# select * from test;
+	test=# \q
+
+---------------
+
+	[root@cw postgresql-9.4.0]# psql -U postgres
+	默认是postgres用户是没有密码的可以直接登录，这里设个密码
+	postgres=# \password
 问题1：
 
 `configure: error: could not determine flags for linking embedded Perl.
