@@ -18,12 +18,12 @@ FLUSH PRIVILEGES;
 select user,host from mysql.user;
 
 #锁定所有库(只能读取(库,表,记录值)，不能新建,删除,修改)
+#退出mysql锁就自动解了，所以下面的mysqldump要在新的终端下进行
 mysql> FLUSH TABLES WITH READ LOCK;
 
 #查询主数据库状态，并记下FILE及Position的值
 
 mysql> show master status;①
-
 
 #选择要同步的主库并备份数据
 [root@localhost mysql]# mysqldump -uroot -p test> ~/test.sql
