@@ -1,10 +1,11 @@
 cd /data/tgz
-wget http://download.redis.io/releases/redis-2.8.17.tar.gz
+#redis-3.0.2.tar.gz
+wget http://download.redis.io/releases/redis-stable.tar.gz
 mkdir build
-tar -xvzf redis-2.8.17.tar.gz -C /data/tgz/build
-cd build/redis-2.8.17/
-make PREFIX=/data/apps/redis install
-find / -name redis-server
+tar -xvzf redis-stable.tar.gz
+mv redis-stable/ /data/apps/redis
+cd /data/apps/redis
+make && make install
 
 ln -s /data/apps/redis/bin/* /usr/bin/
 cp redis.conf /data/apps/redis/conf/
@@ -33,13 +34,27 @@ PONG
 OK
 127.0.0.1:9999> get name
 "cw"
+#清空所有key
+127.0.0.1:9999> flushdb
+OK
+#查看key 为sdk_open3的值长度
+127.0.0.1:9999> llen sdk_open3
+
+#列出所有key
+127.0.0.1:9999> keys *
+1) "sdk_open2"
+2) "sdk_open5"
+3) "sdk_open1"
+4) "sdk_open3"
+5) "sdk_open4"
+
 
 //关闭redis
 redis-cli shutdown
 
 
 ----php扩展----
-git clone git@github.com:nicolasff/phpredis.git
+git clone git@github.com:phpredis/phpredis.git
 ./configure –with-php-config=/data/apps/php/bin/php-config
 make && make install
 vi php.ini
@@ -52,3 +67,7 @@ $redis = new Redis();
 $redis->connect('127.0.0.1', '6379');
 $redis->set('test', 'abc');
 echo  $redis->get('test');
+
+附：
+-
+http://redisdoc.com/index.html
