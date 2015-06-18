@@ -1,3 +1,6 @@
+ruby配置见ruby文档
+-
+
 安装依赖包：
 yum install ImageMagick ImageMagick-devel
 
@@ -36,7 +39,7 @@ production:
   encoding: utf8
 
 5、依赖项安装：
-bundle install --without development test[报错见附2]
+bundle install --without development test
 
 6、Session存储秘钥
 rake generate_secret_token
@@ -49,11 +52,3 @@ RAILS_ENV=production rake redmine:load_default_data
 后台执行：
 nohup ruby script/rails server webrick -e production &
 设置nginx转发3000端口
-
-附2：
-如果mysql是手动编译的，要指定mysql_config位置：
-gem install mysql2 -- --with-mysql-config=/data/apps/mysql/bin/mysql_config
-
-如果是yum装的，找不到libmysqlclient_r.so.16包就装MySQL-shared-compat rpm包:
-#http://dev.mysql.com/get/Downloads/MySQL-5.7/MySQL-shared-compat-5.7.4_m14-1.el6.x86_64.rpm
-

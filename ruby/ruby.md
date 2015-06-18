@@ -20,6 +20,8 @@ tar -xvzf rubygems-2.4.8.tgz
 cd rubygems-2.4.8
 ruby setup.rb
 gem -v
+#卸载
+gem uninstall softname
 
 3、rails[设置源见附1]
 rails(Ruby on Rails)是一个用于开发数据库驱动的网络应用程序的完整框架。Rails基于MVC（模型- 视图- 控制器）设计模式。从视图中的Ajax应用，到控制器中的访问请求和反馈，到封装数据库的模型，Rails 为你提供一个纯Ruby的开发环境。发布网站时，你只需要一个数据库和一个网络服务器即可。
@@ -42,16 +44,19 @@ gem install bundler
 ln -s /data/apps/ruby/bin/* /usr/bin
 bundler -v
 
+6、mysql2
+gem install mysql2 -- --with-mysql-config=/data/apps/mysql/bin/mysql_config
+测试用例:mysql2_test1.rb
 
 附1：
 ----------------选择一http://ruby.sdutlinux.org/--------------------------
 gem sources --remove https://rubygems.org/
 gem sources -a http://ruby.sdutlinux.org/
+#请确保只有 ruby.sdutlinux.org
+gem sources -l
 *** CURRENT SOURCES ***
 
 http://ruby.sdutlinux.org
-#请确保只有 ruby.sdutlinux.org
-gem sources -l
 [gem update --system]
 
 ----------------选择二http://ruby.taobao.org--------------------------
