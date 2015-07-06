@@ -1,3 +1,4 @@
+http://developer.android.com/sdk/index.html
 http://dl.google.com/android/android-sdk_r24.3.3-linux.tgz
 
 #解压加环境变量
