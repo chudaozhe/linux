@@ -72,3 +72,5 @@ curl "http://172.16.1.195:1218/?charset=utf-8&name=hehe&opt=status_json&auth=123
 查看pos的值[putpos=pos]仅查看不出队
 http://172.16.1.195:1218/?charset=utf-8&name=hehe&opt=view&pos=59&data=123123&auth=123456
 
+查看队列状态：
+http://172.16.1.195:1219/?name=hehe&opt=status&auth=123456
