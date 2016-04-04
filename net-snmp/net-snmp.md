@@ -13,6 +13,9 @@ cd net-snmp-5.7.3
 --with-persistent-directory	#数据存储目录
 make && make install
 
+#复制示例配置
+cp EXAMPLE.conf /data/apps/snmp/share/snmp/snmpd.conf
+
 ls /data/apps/snmp
 
 v2c
@@ -43,6 +46,15 @@ createUser cw MD5 cw888
 /data/apps/snmp/sbin/snmpd
 关闭
 killall -9 snmpd
+
+测试v3
+snmpwalk -v 3 -u cw -l auth -a MD5 -A cw888 localhost
+snmpget -v 3 -u cw -l authNoPriv -a MD5 -A cw888 localhost sysUpTime.0
+测试v2c
+snmpwalk -v 2c -c public localhost
+测试v1
+snmpwalk -v 1 -c public localhost
+
 
 设置防火墙
 iptables -A INPUT -i eth0 -p udp -s 60.195.252.107 --dport 161 -j ACCEPT
