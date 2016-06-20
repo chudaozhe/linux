@@ -106,3 +106,9 @@ git log --pretty=oneline 文件名
 git diff
 #拉取到本地
 git pull
+
+#修改远程仓库地址
+git remote set-url origin git@192.168.9.110:~/work/project.git
+或
+cd my_project
+vi .git/config
