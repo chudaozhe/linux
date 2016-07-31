@@ -1,8 +1,11 @@
 MySQL Community Server (GPL)
 http://dev.mysql.com/downloads/mysql/
-wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.20.tar.gz
+<del>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.20.tar.gz</del>
+wget http://cdn.mysql.com//Downloads/MySQL-5.7/mysql-boost-5.7.14.tar.gz
+
 #下载编译工具，也可以yum装
-wget http://www.cmake.org/files/v2.8/cmake-2.8.0.tar.gz
+<del>wget http://www.cmake.org/files/v2.8/cmake-2.8.0.tar.gz</del>
+wget https://cmake.org/files/v3.6/cmake-3.6.1.tar.gz
 ./configure --prefix=/data/apps/cmake
 make && make install
 ln -s /data/apps/cmake/bin/* /usr/bin/
@@ -22,7 +25,9 @@ cmake \
 -DWITH_EMBEDDED_SERVER=1 \
 -DENABLED_LOCAL_INFILE=1 \
 -DWITH_INNOBASE_STORAGE_ENGINE=1 \
--DWITH_PARTITION_STORAGE_ENGINE=1
+-DWITH_PARTITION_STORAGE_ENGINE=1 [\
+-DDOWNLOAD_BOOST=1 \
+-DWITH_BOOST=/data/tgz/mysql-5.7.14/boost/boost_1_59_0]
 
 make && make install
 cd /data/apps/mysql/
