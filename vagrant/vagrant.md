@@ -70,7 +70,16 @@
 开发环境自动部署工具
 
 	https://puphpet.com/
-指定本地box
+
+1, 修改ruby源
+
+	http://ruby.sdutlinux.org/
+
+2, 修改pypi(python)源
+
+	https://pypi-mirrors.org/
+
+3, 指定本地box
 
 	vi puphpet/config.yaml
 	box_url: D:\Users\home\Downloads\centos-6.6-x86_64.box
