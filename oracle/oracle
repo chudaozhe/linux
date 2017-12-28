@@ -1,0 +1,27 @@
+#! /bin/bash
+# chkconfig: 234 61 61
+# description: Oracle 11g AutoRun Service
+# /etc/rc.d/init.d/oracle
+
+case "$1" in
+    start)
+# starts oracle listener and instance
+        echo "Starting Oracle Database:"
+        su oracle -lc dbstart
+        su oracle -lc "emctl start dbconsole"
+        ;;
+    stop)
+# shutdown oracle listner and instance
+        echo "Shuting down Oracle Database:"
+        su oracle -lc dbshut
+        su oracle -lc "emctl stop dbconsole"
+        ;;
+    reload|restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: {start|stop|reload|restart}"
+exit 1
+esac
+exit 0
