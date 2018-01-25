@@ -1,0 +1,16 @@
+SID_LIST_LISTENER =  
+  (SID_LIST =  
+    (SID_DESC =  
+      (SID_NAME = PLSExtProc)  
+      (ORACLE_HOME = /opt/oracle)  
+      (PROGRAM = extproc)  
+    )  
+  )  
+  
+LISTENER =  
+  (DESCRIPTION_LIST =  
+    (DESCRIPTION =  
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521))  
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC0))  
+    )  
+  )  
