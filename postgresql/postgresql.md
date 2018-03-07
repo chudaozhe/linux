@@ -4,11 +4,11 @@ postgredql的php扩展(`php_pdo_pgsql.dll/php_pgsql.dll`)是通过`libpq.dll`与
 > 注：`libpq.dll`在`D:\Program Files (x86)\PostgreSQL\9.4\bin`下面，需要将这个目录加入环境变量
 
 ###Linux
-`wget(curl -O) http://ftp.postgresql.org/pub/source/v9.4.0/postgresql-9.4.0.tar.gz`
+`wget(curl -O) https://ftp.postgresql.org/pub/source/v10.3/postgresql-10.3.tar.gz`
 
 依赖包
 
-`yum install readline-devel`
+`yum install readline-devel perl-ExtUtils-Embed tcl tcl-devel`
 
 开始编译
 
@@ -48,7 +48,7 @@ su - postgres
 
 创建启动脚本
 
-	cd cd /data/tgz/postgresql-9.4.0
+	cd /data/tgz/postgresql-9.4.0
 	cp contrib/start-scripts/linux /etc/init.d/postgresql
 	设置postgresql的安装目录
 	vi /etc/init.d/postgresql
@@ -80,9 +80,15 @@ su - postgres
 `chkconfig |grep postgresql`
 
 ####使用
+登录psql
+
+`psql -U postgres`
+
 给postgres设置密码
 
-`\password postgres`
+
+
+`\password`
 
 创建用户
 
@@ -104,9 +110,10 @@ su - postgres
 	
 	-U指定用户，-d指定数据库，-h指定服务器，-p指定端口。
 
-导入数据
+导入导出
 
-	psql testdb < testdb.sql
+	psql -Upostgres db1 < ./db1.sql
+	pg_dump -hlocalhost -Upostgres db1 >./db1.sql
 
 TEST
 

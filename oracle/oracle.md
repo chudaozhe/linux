@@ -46,14 +46,16 @@ cp /home/oracle/database/response/* /home/oracle/etc/
 
 
 添加环境变量
-vi ~/.bashrc
+vi /etc/profile
 umask 022
 export ORACLE_BASE=/home/oracle/app
 export ORACLE_HOME=$ORACLE_BASE/oracle/product/11.2.0/dbhome_1
 export ORACLE_SID=orcl
 export PATH=$PATH:$HOME/bin:$ORACLE_HOME/bin
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib
-
+# NLS_LANG=AMERICAN_AMERICA.ZHS16GBK #中文-系统语言
+NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P15
+export NLS_LANG
 
 准备安装
 vi /home/oracle/etc/db_install.rsp
