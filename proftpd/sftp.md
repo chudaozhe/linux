@@ -9,7 +9,9 @@
 如:登陆ftp用户名：cui
 
 转换本地公钥, 然后上传到服务器
+
 ssh-keygen -e -f ~/.ssh/id_rsa.pub > ./cui
+
 scp cui root@ip:/data/apps/proftpd/authorized_keys/cui
 
 
