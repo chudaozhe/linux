@@ -24,6 +24,8 @@ cqlsh> DESCRIBE keyspaces;
 #keyspace下的所有表
 cw@cqlsh:test111> desc tables;
 
+#输出 test111 里面所有的表结构和keyspace语句，类似mysql导出表结构和建库语句
+cqlsh> desc keyspace test111;
 #输出 test111 里面所有的表结构
 cqlsh> DESCRIBE test111;
 #输出user表的结构
