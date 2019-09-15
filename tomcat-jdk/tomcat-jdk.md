@@ -11,8 +11,10 @@ vi ~/.bashrc
 在该文件末尾添加如下配置：
 
 export JAVA_HOME=/data/apps/jdk
-export PATH=$PATH:$JAVA_HOME
-
+~~export PATH=$PATH:$JAVA_HOME~~
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
 使环境变量生效：
 source ~/.bashrc
 
